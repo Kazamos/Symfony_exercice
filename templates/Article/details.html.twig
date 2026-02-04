@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ article.titleArticle }}</h1>
+
+    <img src="{{ asset('uploads/' ~ article.imageArticle) }}" alt="image article">
+
+    <p>
+        <strong>Auteur :</strong>
+        {{ article.writeBy ? article.writeBy.nameUser : 'Inconnu' }} {{ article.writeBy ? article.writeBy.firstnameUser : 'Inconnu' }}
+    </p>
+
+    <p>
+        <strong>Catégories :</strong>
+        {% for category in article.categories %}
+            {{ category.nameCat }}{% if not loop.last %}, {% endif %}
+        {% else %}
+            Aucune catégorie
+        {% endfor %}
+    </p>
+
+    <p>
+        <strong>Publié le :</strong>
+        {{ article.publishedAt ? article.publishedAt|date('d/m/Y H:i') : 'Non publié' }}
+    </p>
+
+    <p>
+        <strong>Mis à jour le :</strong>
+        {{ article.updatedAt ? article.updatedAt|date('d/m/Y H:i') : 'Jamais' }}
+    </p>
+
+    <hr>
+
+    <div>
+        {{ article.contentArticle|nl2br }}
+    </div>
+
+    <br>
+
+    <a href="{{ path('article_index') }}">← Retour aux articles</a>
+{% endblock %}

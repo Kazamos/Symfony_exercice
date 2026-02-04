@@ -21,6 +21,7 @@ class AppFixtures extends Fixture
 
         $users=[];
         $categories=[];
+
         //Ajouter 20 User
         for($i=0; $i<20; $i++){
             $user = new User();
@@ -49,8 +50,16 @@ class AppFixtures extends Fixture
                 ->setContentArticle($faker->paragraph())
                 ->setImageArticle($faker->image())
                 ->setCreatedAt(new \DateTimeImmutable())
-                ->setUpdatedAt($faker->dateTime())
                 ->setPublishedAt(new \DateTimeImmutable());
+            
+            $randomUser = $faker->randomElement($users);
+            $article->setWriteBy($randomUser);
+
+            $randomCategories = $faker->randomElements($categories, $faker->numberBetween(1, 3));
+            foreach ($randomCategories as $cat) {
+                $article->addCategory($cat);
+            }
+
             $manager->persist($article);
         }
         $manager->flush();

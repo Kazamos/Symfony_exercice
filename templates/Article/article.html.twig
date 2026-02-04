@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Liste des articles</h1>
+
+    {% for article in articles %}
+        <article>
+            <h2>{{ article.titleArticle }}</h2>
+
+            <p>
+                Publié le :
+                {{ article.publishedAt ? article.publishedAt|date('d/m/Y') : 'Non publié' }}
+            </p>
+
+            <p>
+                Catégories :
+                {% for category in article.categories %}
+                    {{ category.nameCat }}{% if not loop.last %}, {% endif %}
+                {% else %}
+                    Aucune catégorie
+                {% endfor %}
+            </p>
+
+            <a href="{{ path('article_show', {id: article.id}) }}">
+                Lire l'article
+            </a>
+        </article>
+
+        <hr>
+    {% else %}
+        <p>Aucun article trouvé.</p>
+    {% endfor %}
+{% endblock %}
